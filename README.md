@@ -21,6 +21,7 @@ npx tsx examples/sdxl-workflow.ts > sdxl-workflow.json
 # コンソールに出力（ワークフロー情報付き）
 npx tsx examples/sdxl-workflow.ts
 ```
+<img width="1389" height="720" alt="image" src="https://github.com/user-attachments/assets/e7746925-8d8d-4368-b46c-d31be787a65b" />
 
 ## 基本的な使い方
 
@@ -478,3 +479,4 @@ npm run test
 # 単発実行
 npm run test:run
 ```
+
