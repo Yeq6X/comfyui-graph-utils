@@ -140,7 +140,7 @@ if (import.meta.url === `file://${process.argv[1]}` || process.argv[1]?.endsWith
   console.log(`Total nodes: ${workflow.getNodeCount()}`);
   console.log(`Total edges: ${workflow.getEdges().length}`);
   console.log('\nNodes:');
-  workflow.getNodes().forEach(({ id, node }) => {
+  Object.entries(workflow.getNodes()).forEach(([id, node]) => {
     console.log(`  [${id}] ${node.class_type} - ${node._meta?.title || 'No title'}`);
   });
 }
