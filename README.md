@@ -1,6 +1,6 @@
 # comfyui-graph-utils
 
-ComfyUIのワークフローJSONを操作するTypeScriptライブラリ。langgraph風のAPIデザインを採用。
+ComfyUIのワークフローJSONを操作するTypeScriptライブラリ。LangGraph風のAPIデザインを採用。
 
 ## インストール
 
