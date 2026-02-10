@@ -4,10 +4,12 @@ ComfyUIのワークフローJSONを操作するTypeScriptライブラリ。LangG
 
 ## インストール
 
-プロジェクト内のライブラリのため、追加インストール不要。
+```bash
+git clone https://github.com/Yeq6X/comfyui-graph-utils.git
+```
 
 ```typescript
-import { ComfyWorkflow } from 'comfyui-graph-utils';
+import { ComfyWorkflow } from './comfyui-graph-utils';
 ```
 
 ## サンプル実行
