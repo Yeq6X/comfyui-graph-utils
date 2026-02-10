@@ -1,11 +1,13 @@
+[English](README.md) | [日本語](README.ja.md)
+
 # comfyui-graph-utils
 
-ComfyUIワークフローJSONの編集・バリデーションに特化したTypeScriptライブラリ。
+A TypeScript library specialized for editing and validating ComfyUI workflow JSON.
 
-JSON直接編集と異なり、ノード参照の整合性を保証し不正な接続を防止する。
-AIエージェントによるワークフロー操作など、安全にJSONを変更したいケースに最適。
+Unlike direct JSON editing, this library ensures node reference integrity and prevents invalid connections.
+Ideal for cases where you want to safely modify JSON, such as workflow manipulation by AI agents.
 
-## インストール
+## Installation
 
 ```bash
 git clone https://github.com/Yeq6X/comfyui-graph-utils.git
@@ -15,29 +17,29 @@ git clone https://github.com/Yeq6X/comfyui-graph-utils.git
 import { ComfyWorkflow } from './comfyui-graph-utils';
 ```
 
-## サンプル実行
+## Running Examples
 
-`examples/` ディレクトリにサンプルスクリプトがあります。`npx tsx` で直接実行できます。
+Sample scripts are available in the `examples/` directory. You can run them directly with `npx tsx`.
 
 ```bash
-# SDXLワークフローを生成してJSONファイルに出力
+# Generate an SDXL workflow and output to a JSON file
 npx tsx examples/sdxl-workflow.ts > sdxl-workflow.json
 
-# コンソールに出力（ワークフロー情報付き）
+# Output to console (with workflow info)
 npx tsx examples/sdxl-workflow.ts
 ```
 <img width="1389" height="720" alt="image" src="https://github.com/user-attachments/assets/e7746925-8d8d-4368-b46c-d31be787a65b" />
 
-## 基本的な使い方
+## Basic Usage
 
-### 新規ワークフローの作成
+### Creating a New Workflow
 
 ```typescript
 import { ComfyWorkflow } from 'comfyui-graph-utils';
 
 const workflow = new ComfyWorkflow();
 
-// ノードを追加（IDが自動生成される）
+// Add nodes (IDs are auto-generated)
 const vaeId = workflow.addNode('VAELoader', {
   vae_name: 'hunyuan_video_vae_bf16.safetensors'
 });
@@ -48,79 +50,79 @@ const samplerId = workflow.addNode('KSampler', {
   seed: 12345
 });
 
-// ノード間を接続
+// Connect nodes
 workflow.addEdge(vaeId, 0, samplerId, 'model');
 
-// JSONとしてエクスポート
+// Export as JSON
 const json = workflow.toJson();
 ```
 
-### 既存ワークフローの読み込み
+### Loading an Existing Workflow
 
 ```typescript
-// オブジェクトから読み込み
+// Load from object
 const workflow = ComfyWorkflow.fromJson(existingWorkflowJson);
 
-// JSON文字列から読み込み
+// Load from JSON string
 const workflow2 = ComfyWorkflow.fromJson('{"1": {"inputs": {}, "class_type": "TestNode"}}');
 ```
 
-## API リファレンス
+## API Reference
 
-### コンストラクタ・ファクトリ
+### Constructor / Factory
 
 #### `new ComfyWorkflow()`
-空のワークフローを作成。
+Creates an empty workflow.
 
 ```typescript
 const workflow = new ComfyWorkflow();
 ```
 
 #### `ComfyWorkflow.fromJson(json)`
-既存のJSONからワークフローを読み込む。
+Loads a workflow from existing JSON.
 
 ```typescript
 const workflow = ComfyWorkflow.fromJson(existingJson);
 ```
 
-| パラメータ | 型 | 説明 |
-|-----------|-----|------|
-| `json` | `ComfyWorkflowJson \| string` | ワークフローJSON（オブジェクトまたは文字列） |
+| Parameter | Type | Description |
+|-----------|------|-------------|
+| `json` | `ComfyWorkflowJson \| string` | Workflow JSON (object or string) |
 
-### ノード操作
+### Node Operations
 
 #### `addNode(classType, inputs?, options?)`
-ノードを追加し、生成されたIDを返す。
+Adds a node and returns the generated ID.
 
 ```typescript
-// 基本的な使い方
+// Basic usage
 const nodeId = workflow.addNode('VAELoader', { vae_name: 'model.safetensors' });
 
-// カスタムIDを指定
+// With custom ID
 const nodeId2 = workflow.addNode('KSampler', { steps: 20 }, { id: 'my_sampler' });
 
-// メタデータ付き
+// With metadata
 const nodeId3 = workflow.addNode('LoadImage', {}, {
   meta: { title: 'Start Image' }
 });
 ```
 
-| パラメータ | 型 | 説明 |
-|-----------|-----|------|
-| `classType` | `string` | ノードのクラスタイプ（例: `VAELoader`, `KSampler`） |
-| `inputs` | `object` | 入力値（省略可） |
-| `options.id` | `string` | カスタムノードID（省略時は自動生成） |
-| `options.meta` | `{ title?: string }` | メタデータ（省略可） |
+| Parameter | Type | Description |
+|-----------|------|-------------|
+| `classType` | `string` | Node class type (e.g., `VAELoader`, `KSampler`) |
+| `inputs` | `object` | Input values (optional) |
+| `options.id` | `string` | Custom node ID (auto-generated if omitted) |
+| `options.meta` | `{ title?: string }` | Metadata (optional) |
 
 #### `removeNode(nodeId)`
-ノードを削除。関連するエッジも自動的に削除される。
+Removes a node. Related edges are automatically removed.
 
 ```typescript
 workflow.removeNode('12');
 ```
 
 #### `getNode(nodeId)`
-ノードを取得。存在しない場合は`undefined`を返す。
+Gets a node. Returns `undefined` if not found.
 
 ```typescript
 const node = workflow.getNode('12');
@@ -131,7 +133,7 @@ if (node) {
 ```
 
 #### `getNodes()`
-全ノードを取得。
+Gets all nodes.
 
 ```typescript
 const nodes = workflow.getNodes();
@@ -139,14 +141,14 @@ const nodes = workflow.getNodes();
 ```
 
 #### `getNodeCount()`
-ノード数を取得。
+Gets the number of nodes.
 
 ```typescript
 const count = workflow.getNodeCount(); // 15
 ```
 
 #### `findNodesByType(classType)`
-クラスタイプでノードを検索。
+Searches nodes by class type.
 
 ```typescript
 const vaeLoaders = workflow.findNodesByType('VAELoader');
@@ -158,35 +160,35 @@ samplers.forEach(({ id, node }) => {
 });
 ```
 
-### エッジ（接続）操作
+### Edge (Connection) Operations
 
 #### `addEdge(sourceNodeId, sourcePort, targetNodeId, targetInputName)`
-ノード間の接続を追加。
+Adds a connection between nodes.
 
 ```typescript
-// VAELoaderの出力ポート0をVAEEncodeのvae入力に接続
+// Connect VAELoader output port 0 to VAEEncode's vae input
 workflow.addEdge('12', 0, '20', 'vae');
 
-// CLIPの出力ポート0をKSamplerのpositive入力に接続
+// Connect CLIP output port 0 to KSampler's positive input
 workflow.addEdge('6', 0, '3', 'positive');
 ```
 
-| パラメータ | 型 | 説明 |
-|-----------|-----|------|
-| `sourceNodeId` | `string` | ソースノードID |
-| `sourcePort` | `number` | ソースの出力ポート番号（0から始まる） |
-| `targetNodeId` | `string` | ターゲットノードID |
-| `targetInputName` | `string` | ターゲットの入力名 |
+| Parameter | Type | Description |
+|-----------|------|-------------|
+| `sourceNodeId` | `string` | Source node ID |
+| `sourcePort` | `number` | Source output port number (0-based) |
+| `targetNodeId` | `string` | Target node ID |
+| `targetInputName` | `string` | Target input name |
 
 #### `removeEdge(targetNodeId, inputName)`
-エッジを削除。
+Removes an edge.
 
 ```typescript
 workflow.removeEdge('20', 'vae');
 ```
 
 #### `getEdges()`
-全エッジを取得。
+Gets all edges.
 
 ```typescript
 const edges = workflow.getEdges();
@@ -198,32 +200,32 @@ const edges = workflow.getEdges();
 ```
 
 #### `getEdgesFrom(sourceNodeId)`
-特定ノードからの出力エッジを取得。
+Gets output edges from a specific node.
 
 ```typescript
 const edges = workflow.getEdgesFrom('12');
 ```
 
 #### `getEdgesTo(targetNodeId)`
-特定ノードへの入力エッジを取得。
+Gets input edges to a specific node.
 
 ```typescript
 const edges = workflow.getEdgesTo('20');
 ```
 
 #### `hasConnection(sourceNodeId, targetNodeId)`
-2つのノード間に接続があるか確認。
+Checks if a connection exists between two nodes.
 
 ```typescript
 if (workflow.hasConnection('12', '20')) {
-  console.log('ノード12から20への接続あり');
+  console.log('Connection exists from node 12 to 20');
 }
 ```
 
-### 入力値操作
+### Input Operations
 
 #### `setInput(nodeId, name, value)`
-入力値を設定。
+Sets an input value.
 
 ```typescript
 workflow.setInput('3', 'steps', 30);
@@ -232,7 +234,7 @@ workflow.setInput('3', 'seed', 999999);
 ```
 
 #### `getInput(nodeId, name)`
-入力値を取得。
+Gets an input value.
 
 ```typescript
 const steps = workflow.getInput('3', 'steps'); // 30
@@ -240,7 +242,7 @@ const connection = workflow.getInput('17', 'clip_vision'); // ['18', 0]
 ```
 
 #### `getInputs(nodeId)`
-ノードの全入力を取得。
+Gets all inputs for a node.
 
 ```typescript
 const inputs = workflow.getInputs('3');
@@ -248,7 +250,7 @@ const inputs = workflow.getInputs('3');
 ```
 
 #### `updateInputs(nodeId, inputs)`
-複数の入力を一度に更新。
+Updates multiple inputs at once.
 
 ```typescript
 workflow.updateInputs('3', {
@@ -259,50 +261,50 @@ workflow.updateInputs('3', {
 ```
 
 #### `clearInput(nodeId, name)`
-入力を削除。
+Removes an input.
 
 ```typescript
 workflow.clearInput('3', 'seed');
 ```
 
-### エクスポート
+### Export
 
 #### `toJson()`
-ワークフローをJSONオブジェクトとしてエクスポート。
+Exports the workflow as a JSON object.
 
 ```typescript
 const json = workflow.toJson();
 ```
 
 #### `toJsonString(indent?)`
-ワークフローをJSON文字列としてエクスポート。
+Exports the workflow as a JSON string.
 
 ```typescript
-// 圧縮形式
+// Compact format
 const compact = workflow.toJsonString();
 
-// 整形済み（インデント2）
+// Pretty-printed (indent 2)
 const pretty = workflow.toJsonString(2);
 ```
 
-## 型定義
+## Type Definitions
 
 ### NodeConnection
-ノード接続を表すタプル。
+A tuple representing a node connection.
 
 ```typescript
-type NodeConnection = [string, number]; // [ノードID, ポート番号]
+type NodeConnection = [string, number]; // [nodeId, portNumber]
 ```
 
 ### InputValue
-入力値の型。
+Input value type.
 
 ```typescript
 type InputValue = string | number | boolean | NodeConnection | null;
 ```
 
 ### ComfyNode
-ノードの型。
+Node type.
 
 ```typescript
 interface ComfyNode {
@@ -313,7 +315,7 @@ interface ComfyNode {
 ```
 
 ### Edge
-エッジの型。
+Edge type.
 
 ```typescript
 interface Edge {
@@ -324,10 +326,10 @@ interface Edge {
 }
 ```
 
-## 型ガード関数
+## Type Guard Functions
 
 ### `isNodeConnection(value)`
-値がNodeConnectionかどうかを判定。
+Checks if a value is a NodeConnection.
 
 ```typescript
 import { isNodeConnection } from 'comfyui-graph-utils';
@@ -335,57 +337,57 @@ import { isNodeConnection } from 'comfyui-graph-utils';
 const value = node.inputs.model;
 if (isNodeConnection(value)) {
   const [nodeId, port] = value;
-  console.log(`接続: ノード${nodeId}のポート${port}`);
+  console.log(`Connection: node ${nodeId}, port ${port}`);
 } else {
-  console.log(`直接値: ${value}`);
+  console.log(`Direct value: ${value}`);
 }
 ```
 
 ### `isComfyNode(value)`
-値がComfyNodeかどうかを判定。
+Checks if a value is a ComfyNode.
 
 ### `isComfyWorkflowJson(value)`
-値がComfyWorkflowJsonかどうかを判定。
+Checks if a value is a ComfyWorkflowJson.
 
-## バリデーション
+## Validation
 
 ### `validateWorkflow(json)`
-ワークフロー全体をバリデート。
+Validates the entire workflow.
 
 ```typescript
 import { validateWorkflow } from 'comfyui-graph-utils';
 
 const result = validateWorkflow(json);
 if (!result.valid) {
-  console.error('エラー:', result.errors);
+  console.error('Errors:', result.errors);
 }
 if (result.warnings.length > 0) {
-  console.warn('警告:', result.warnings);
+  console.warn('Warnings:', result.warnings);
 }
 ```
 
 ### `validateWorkflowStructure(json)`
-ワークフローの構造のみをバリデート。
+Validates only the workflow structure.
 
 ### `validateConnections(json)`
-ワークフローの接続をバリデート。
-- 存在しないノードへの参照をエラーとして検出
-- 孤立したノードを警告として検出
+Validates workflow connections.
+- Detects references to non-existent nodes as errors
+- Detects isolated nodes as warnings
 
-## 実用例
+## Examples
 
-### ワークフローのパラメータを一括変更
+### Batch Parameter Changes
 
 ```typescript
 const workflow = ComfyWorkflow.fromJson(existingWorkflow);
 
-// 全てのKSamplerのstepsを変更
+// Change steps for all KSamplers
 const samplers = workflow.findNodesByType('KSampler');
 samplers.forEach(({ id }) => {
   workflow.setInput(id, 'steps', 30);
 });
 
-// 全てのKSamplerのseedをランダムに変更
+// Randomize seeds for all KSamplers
 samplers.forEach(({ id }) => {
   workflow.setInput(id, 'seed', Math.floor(Math.random() * 1000000));
 });
@@ -393,17 +395,17 @@ samplers.forEach(({ id }) => {
 const updatedJson = workflow.toJson();
 ```
 
-### 動的なワークフロー構築
+### Dynamic Workflow Construction
 
 ```typescript
 const workflow = new ComfyWorkflow();
 
-// モデルローダー
+// Model loader
 const checkpointId = workflow.addNode('CheckpointLoaderSimple', {
   ckpt_name: 'v1-5-pruned.safetensors'
 });
 
-// CLIPテキストエンコード
+// CLIP text encoding
 const positiveId = workflow.addNode('CLIPTextEncode', {
   text: 'a beautiful landscape'
 });
@@ -411,7 +413,7 @@ const negativeId = workflow.addNode('CLIPTextEncode', {
   text: 'ugly, blurry'
 });
 
-// 空のLatent
+// Empty latent
 const latentId = workflow.addNode('EmptyLatentImage', {
   width: 512,
   height: 512,
@@ -428,15 +430,15 @@ const samplerId = workflow.addNode('KSampler', {
   denoise: 1.0
 });
 
-// VAEデコード
+// VAE decode
 const decodeId = workflow.addNode('VAEDecode', {});
 
-// 画像保存
+// Save image
 const saveId = workflow.addNode('SaveImage', {
   filename_prefix: 'output'
 });
 
-// 接続
+// Connections
 workflow.addEdge(checkpointId, 0, samplerId, 'model');
 workflow.addEdge(checkpointId, 1, positiveId, 'clip');
 workflow.addEdge(checkpointId, 1, negativeId, 'clip');
@@ -450,38 +452,37 @@ workflow.addEdge(decodeId, 0, saveId, 'images');
 const json = workflow.toJson();
 ```
 
-### 既存ワークフローのノード置換
+### Node Replacement
 
 ```typescript
 const workflow = ComfyWorkflow.fromJson(existingWorkflow);
 
-// 古いVAELoaderを探す
+// Find old VAELoader
 const oldVae = workflow.findNodesByType('VAELoader')[0];
 if (oldVae) {
-  // 新しいVAELoaderを追加
+  // Add new VAELoader
   const newVaeId = workflow.addNode('VAELoader', {
     vae_name: 'new_vae_model.safetensors'
   });
 
-  // 古いノードからのエッジを新しいノードに付け替え
+  // Rewire edges from old node to new node
   const edgesFromOld = workflow.getEdgesFrom(oldVae.id);
   edgesFromOld.forEach(edge => {
     workflow.removeEdge(edge.targetNodeId, edge.targetInputName);
     workflow.addEdge(newVaeId, edge.sourcePort, edge.targetNodeId, edge.targetInputName);
   });
 
-  // 古いノードを削除
+  // Remove old node
   workflow.removeNode(oldVae.id);
 }
 ```
 
-## テスト
+## Testing
 
 ```bash
-# ウォッチモードで実行
+# Watch mode
 npm run test
 
-# 単発実行
+# Single run
 npm run test:run
 ```
-
