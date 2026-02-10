@@ -1,0 +1,60 @@
+{
+  "12": {
+    "inputs": {
+      "vae_name": "hunyuan_video_vae_bf16.safetensors"
+    },
+    "class_type": "VAELoader",
+    "_meta": {
+      "title": "VAEを読み込む"
+    }
+  },
+  "13": {
+    "inputs": {
+      "clip_name1": "clip_l.safetensors",
+      "clip_name2": "llava_llama3_fp16.safetensors",
+      "type": "hunyuan_video"
+    },
+    "class_type": "DualCLIPLoader",
+    "_meta": {
+      "title": "デュアルCLIPを読み込む"
+    }
+  },
+  "17": {
+    "inputs": {
+      "crop": "center",
+      "clip_vision": ["18", 0],
+      "image": ["48", 0]
+    },
+    "class_type": "CLIPVisionEncode",
+    "_meta": {
+      "title": "CLIPビジョンエンコード"
+    }
+  },
+  "18": {
+    "inputs": {
+      "clip_name": "sigclip_vision_patch14_384.safetensors"
+    },
+    "class_type": "CLIPVisionLoader",
+    "_meta": {
+      "title": "CLIPビジョンを読み込む"
+    }
+  },
+  "48": {
+    "inputs": {
+      "image": ["50", 0]
+    },
+    "class_type": "GetImageSizeAndCount",
+    "_meta": {
+      "title": "Get Image Size & Count"
+    }
+  },
+  "50": {
+    "inputs": {
+      "interpolation": "lanczos"
+    },
+    "class_type": "ImageResize+",
+    "_meta": {
+      "title": "Image Resize"
+    }
+  }
+}
