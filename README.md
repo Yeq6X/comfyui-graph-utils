@@ -1,4 +1,4 @@
-# ComfyUI Workflow Library
+# comfyui-graph-utils
 
 ComfyUIのワークフローJSONを操作するTypeScriptライブラリ。langgraph風のAPIデザインを採用。
 
