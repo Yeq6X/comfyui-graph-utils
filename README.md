@@ -7,7 +7,7 @@ ComfyUIのワークフローJSONを操作するTypeScriptライブラリ。langg
 プロジェクト内のライブラリのため、追加インストール不要。
 
 ```typescript
-import { ComfyWorkflow } from '@/lib/comfyui-workflow';
+import { ComfyWorkflow } from 'comfyui-graph-utils';
 ```
 
 ## 基本的な使い方
@@ -15,7 +15,7 @@ import { ComfyWorkflow } from '@/lib/comfyui-workflow';
 ### 新規ワークフローの作成
 
 ```typescript
-import { ComfyWorkflow } from '@/lib/comfyui-workflow';
+import { ComfyWorkflow } from 'comfyui-graph-utils';
 
 const workflow = new ComfyWorkflow();
 
@@ -312,7 +312,7 @@ interface Edge {
 値がNodeConnectionかどうかを判定。
 
 ```typescript
-import { isNodeConnection } from '@/lib/comfyui-workflow';
+import { isNodeConnection } from 'comfyui-graph-utils';
 
 const value = node.inputs.model;
 if (isNodeConnection(value)) {
@@ -335,7 +335,7 @@ if (isNodeConnection(value)) {
 ワークフロー全体をバリデート。
 
 ```typescript
-import { validateWorkflow } from '@/lib/comfyui-workflow';
+import { validateWorkflow } from 'comfyui-graph-utils';
 
 const result = validateWorkflow(json);
 if (!result.valid) {
