@@ -10,6 +10,18 @@ ComfyUIのワークフローJSONを操作するTypeScriptライブラリ。LangG
 import { ComfyWorkflow } from 'comfyui-graph-utils';
 ```
 
+## サンプル実行
+
+`examples/` ディレクトリにサンプルスクリプトがあります。`npx tsx` で直接実行できます。
+
+```bash
+# SDXLワークフローを生成してJSONファイルに出力
+npx tsx examples/sdxl-workflow.ts > sdxl-workflow.json
+
+# コンソールに出力（ワークフロー情報付き）
+npx tsx examples/sdxl-workflow.ts
+```
+
 ## 基本的な使い方
 
 ### 新規ワークフローの作成
