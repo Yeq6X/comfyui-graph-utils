@@ -132,15 +132,15 @@ if (import.meta.url === `file://${process.argv[1]}` || process.argv[1]?.endsWith
     seed: 42,
   });
 
-  console.log('=== SDXL Workflow Generated ===\n');
+  // JSONのみstdoutに出力（リダイレクト用）
   console.log(workflow.toJsonString(2));
 
-  // ワークフロー情報を表示
-  console.log('\n=== Workflow Info ===');
-  console.log(`Total nodes: ${workflow.getNodeCount()}`);
-  console.log(`Total edges: ${workflow.getEdges().length}`);
-  console.log('\nNodes:');
+  // ワークフロー情報はstderrに出力
+  console.error('\n=== Workflow Info ===');
+  console.error(`Total nodes: ${workflow.getNodeCount()}`);
+  console.error(`Total edges: ${workflow.getEdges().length}`);
+  console.error('\nNodes:');
   Object.entries(workflow.getNodes()).forEach(([id, node]) => {
-    console.log(`  [${id}] ${node.class_type} - ${node._meta?.title || 'No title'}`);
+    console.error(`  [${id}] ${node.class_type} - ${node._meta?.title || 'No title'}`);
   });
 }
